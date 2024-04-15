@@ -151,7 +151,7 @@ pub fn parse(
                 " ".repeat(indent_depth),
                 &format!(
                     "{}{{trace1}}",
-                    model_derives.as_deref().unwrap_or("Queryable, Debug")
+                    model_derives.as_deref().unwrap_or("Queryable, Selectable, Insertable, AsChangeset, Clone, Default, Debug") 
                 )
             ));
         } else if cmp.contains(") {") {
@@ -438,18 +438,6 @@ fn propercase(s: &str) -> String {
             next_cap = false;
         } else {
             store.push(c);
-        }
-    }
-    if store.last() == Some(&'s') {
-        store.pop();
-        if store.last() == Some(&'e') {
-            store.pop();
-            if store.last() == Some(&'i') {
-                store.pop();
-                store.push('y');
-            } else {
-                store.push('e');
-            }
         }
     }
     store.into_iter().collect()
