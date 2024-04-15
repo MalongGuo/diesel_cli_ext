@@ -137,7 +137,6 @@ fn main() {
         "Set diesel version (default:2)",
         "1 or 2",
     );
-
     let matches = match opts.parse(&args[1..]) {
         Ok(m) => m,
         Err(f) => panic!("{}", f),

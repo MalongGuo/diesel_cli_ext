@@ -151,7 +151,7 @@ pub fn parse(
                 " ".repeat(indent_depth),
                 &format!(
                     "{}{{trace1}}",
-                    model_derives.as_deref().unwrap_or("Queryable, Debug")
+                    model_derives.as_deref().unwrap_or("Queryable, Selectable, Insertable, AsChangeset, Clone, Default, Debug") 
                 )
             ));
         } else if cmp.contains(") {") {
@@ -322,7 +322,7 @@ pub fn parse(
             if rust_style_fields && !vec[0].is_case(Case::Snake) {
                 let field_name = vec[0].to_case(Case::Snake);
                 str_model.push_str(&format!(
-                    "{}#[diesel(column_name = \"{}\")]\n{}pub {}: {},\n",
+                    "{}#[diesel(column_name = \"{}\")]\n{}pub {}_: {},\n",
                     " ".repeat(indent_depth + 4),
                     &vec[0],
                     " ".repeat(indent_depth + 4),
@@ -438,18 +438,6 @@ fn propercase(s: &str) -> String {
             next_cap = false;
         } else {
             store.push(c);
-        }
-    }
-    if store.last() == Some(&'s') {
-        store.pop();
-        if store.last() == Some(&'e') {
-            store.pop();
-            if store.last() == Some(&'i') {
-                store.pop();
-                store.push('y');
-            } else {
-                store.push('e');
-            }
         }
     }
     store.into_iter().collect()
